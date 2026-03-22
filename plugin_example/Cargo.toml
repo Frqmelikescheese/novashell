@@ -1,0 +1,11 @@
+[package]
+name = "nova_weather_plugin"
+version = "0.1.0"
+edition = "2021"
+description = "Example NovaShell plugin: weather widget via wttr.in"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+libc = "0.2"

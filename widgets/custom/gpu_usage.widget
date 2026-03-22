@@ -1,0 +1,54 @@
+# ── GPU usage widget ────────────────────────────────────────────────────────
+# Shows GPU utilisation % and temperature as a compact pill.
+# Auto-detects NVIDIA or AMD. Falls back gracefully if neither found.
+#
+# NVIDIA requires: nvidia-utils  (pacman -S nvidia-utils)
+# AMD requires:    radeontop      (pacman -S radeontop)
+#                 or reads from /sys/class/drm directly
+name: gpu_usage
+description: "GPU utilisation and temperature pill (NVIDIA/AMD)"
+template: |
+  <box class="nova-gpu" orientation="h" spacing="4">
+    <label class="nova-gpu__icon" text=""/>
+    <label class="nova-gpu__percent" text="{usage}%"/>
+    <label class="nova-gpu__label" text="GPU"/>
+    <label class="nova-gpu__temp" text="{temp}"/>
+  </box>
+vars:
+  usage:
+    script: |
+      # Try NVIDIA first
+      val=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -1 | tr -d ' ')
+      if [ -n "$val" ]; then echo "$val"; return; fi
+      # Try AMD via /sys
+      file=$(ls /sys/class/drm/card*/device/gpu_busy_percent 2>/dev/null | head -1)
+      [ -n "$file" ] && cat "$file" || echo "?"
+    interval_ms: 2000
+    default: "?"
+  temp:
+    script: |
+      # NVIDIA
+      val=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null | head -1 | tr -d ' ')
+      if [ -n "$val" ]; then echo "${val}°C"; return; fi
+      # AMD via hwmon
+      file=$(ls /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null | head -1)
+      if [ -n "$file" ]; then
+        t=$(cat "$file")
+        echo "$((t/1000))°C"
+      else
+        echo ""
+      fi
+    interval_ms: 3000
+    default: ""
+default_style: |
+  .nova-gpu {
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: rgba(30, 30, 46, 0.55);
+    border: 1px solid rgba(203, 166, 247, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,.40), 0 0 12px rgba(203,166,247,.08);
+  }
+  .nova-gpu__icon    { font-size: 13px; color: #cba6f7; margin-right: 4px; }
+  .nova-gpu__percent { font-size: 12px; font-weight: 700; color: #cba6f7; font-variant-numeric: tabular-nums; }
+  .nova-gpu__label   { font-size: 10px; color: #6c7086; margin-left: 3px; }
+  .nova-gpu__temp    { font-size: 10px; color: #fab387; margin-left: 6px; }

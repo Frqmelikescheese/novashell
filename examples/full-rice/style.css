@@ -1,0 +1,287 @@
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  NovaShell — Catppuccin Mocha full rice theme                             */
+/*  Palette: https://catppuccin.com/palette (Mocha)                          */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── CSS Custom Properties (Catppuccin Mocha) ──────────────────────────── */
+@define-color base    #1e1e2e;
+@define-color mantle  #181825;
+@define-color crust   #11111b;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+@define-color text    #cdd6f4;
+@define-color rosewater #f5e0dc;
+@define-color flamingo  #f2cdcd;
+@define-color pink      #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color red       #f38ba8;
+@define-color maroon    #eba0ac;
+@define-color peach     #fab387;
+@define-color yellow    #f9e2af;
+@define-color green     #a6e3a1;
+@define-color teal      #94e2d5;
+@define-color sky       #89dceb;
+@define-color sapphire  #74c7ec;
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+
+/* ── Global reset ────────────────────────────────────────────────────────── */
+* {
+  font-family: "JetBrains Mono", "Fira Code", "Iosevka", monospace;
+  color: @text;
+  -gtk-icon-style: symbolic;
+  transition: all 200ms ease;
+}
+
+window {
+  background: transparent;
+}
+
+/* ── Shared panel style ───────────────────────────────────────────────────── */
+.nova-clock,
+.nova-sysmon,
+.nova-cava,
+.nova-media,
+.nova-battery,
+.nova-volume,
+.nova-launcher {
+  background: alpha(@base, 0.88);
+  border-radius: 16px;
+  border: 1px solid alpha(@surface1, 0.60);
+  box-shadow: 0 4px 24px alpha(#000000, 0.40);
+}
+
+/* ── Clock ───────────────────────────────────────────────────────────────── */
+.nova-clock {
+  padding: 20px 28px;
+}
+
+.nova-clock__time {
+  font-size: 56px;
+  font-weight: 800;
+  color: @text;
+  letter-spacing: -1.5px;
+}
+
+.nova-clock__date {
+  font-size: 15px;
+  color: @blue;
+  margin-top: 4px;
+  opacity: 0.90;
+}
+
+.nova-clock__day {
+  font-size: 11px;
+  color: @overlay1;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-top: 2px;
+}
+
+/* ── System Monitor ──────────────────────────────────────────────────────── */
+.nova-sysmon {
+  padding: 16px 18px;
+  min-width: 200px;
+}
+
+.nova-sysmon__title {
+  font-weight: 700;
+  font-size: 10px;
+  color: @overlay0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.nova-sysmon__row { margin: 1px 0; }
+
+.nova-sysmon__label {
+  min-width: 38px;
+  font-size: 11px;
+  color: @overlay1;
+}
+
+.nova-sysmon__value {
+  min-width: 56px;
+  font-size: 12px;
+  color: @subtext1;
+}
+
+.nova-sysmon__bar {
+  min-width: 80px;
+  min-height: 6px;
+  border-radius: 3px;
+}
+
+.nova-sysmon__bar--cpu levelbar block.filled { background: @blue; }
+.nova-sysmon__bar--ram levelbar block.filled { background: @mauve; }
+
+/* ── Cava Visualizer ─────────────────────────────────────────────────────── */
+.nova-cava {
+  padding: 12px 16px;
+}
+
+.nova-cava__canvas {
+  border-radius: 6px;
+}
+
+/* ── Media Player ────────────────────────────────────────────────────────── */
+.nova-media {
+  padding: 16px 18px;
+  min-width: 250px;
+}
+
+.nova-media__title {
+  font-weight: 700;
+  font-size: 14px;
+  color: @text;
+}
+
+.nova-media__artist {
+  font-size: 12px;
+  color: @subtext0;
+}
+
+.nova-media__art {
+  border-radius: 8px;
+  border: 1px solid alpha(@surface1, 0.5);
+}
+
+.nova-media__btn {
+  padding: 6px;
+  border-radius: 50%;
+  min-width: 34px;
+  min-height: 34px;
+  color: @subtext1;
+  background: alpha(@surface0, 0.80);
+  border: 1px solid alpha(@surface1, 0.40);
+}
+
+.nova-media__btn:hover {
+  background: @surface1;
+  color: @text;
+}
+
+.nova-media__btn--playpause {
+  background: @blue;
+  color: @crust;
+  font-size: 16px;
+}
+
+.nova-media__btn--playpause:hover {
+  background: @lavender;
+}
+
+.nova-media__progress trough {
+  background: @surface0;
+  border-radius: 3px;
+  min-height: 4px;
+}
+
+.nova-media__progress trough highlight {
+  background: @blue;
+  border-radius: 3px;
+}
+
+/* ── Battery ─────────────────────────────────────────────────────────────── */
+.nova-battery {
+  padding: 12px 16px;
+}
+
+.nova-battery__icon {
+  font-size: 28px;
+  color: @green;
+}
+
+.nova-battery__percent {
+  font-weight: 700;
+  font-size: 15px;
+  color: @green;
+}
+
+.nova-battery__status {
+  font-size: 11px;
+  color: @overlay0;
+}
+
+.nova-battery__bar levelbar block.filled {
+  background: @green;
+  border-radius: 4px;
+}
+
+/* Low battery warning */
+.nova-battery.low .nova-battery__icon,
+.nova-battery.low .nova-battery__percent {
+  color: @red;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1.0; }
+  to   { opacity: 0.5; }
+}
+
+/* ── Volume ──────────────────────────────────────────────────────────────── */
+.nova-volume {
+  padding: 8px 16px;
+  min-width: 180px;
+}
+
+.nova-volume__icon {
+  color: @sky;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.nova-volume__slider trough {
+  background: @surface0;
+  min-height: 4px;
+  border-radius: 2px;
+}
+
+.nova-volume__slider trough highlight {
+  background: @sky;
+  border-radius: 2px;
+}
+
+.nova-volume__label {
+  color: @subtext0;
+  min-width: 42px;
+  font-size: 12px;
+}
+
+/* ── Launcher ─────────────────────────────────────────────────────────────── */
+.nova-launcher {
+  padding: 6px 12px;
+}
+
+.nova-launcher__btn {
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: alpha(@mauve, 0.20);
+  color: @mauve;
+  border: 1px solid alpha(@mauve, 0.35);
+}
+
+.nova-launcher__btn:hover {
+  background: alpha(@mauve, 0.35);
+  color: @text;
+}
+
+/* ── Tooltip ─────────────────────────────────────────────────────────────── */
+tooltip {
+  background: @mantle;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+}

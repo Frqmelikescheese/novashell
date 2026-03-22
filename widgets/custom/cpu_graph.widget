@@ -1,0 +1,27 @@
+# ── Example custom widget: CPU graph using shell + DrawingArea ────────────
+# Shows CPU usage as a small history graph drawn via Cairo.
+name: cpu_graph
+description: "CPU usage graph (history sparkline via drawing area)"
+template: |
+  <box class="nova-cpu-graph" orientation="v" spacing="4">
+    <box class="nova-cpu-graph__header" orientation="h" spacing="6">
+      <label class="nova-cpu-graph__label" text="CPU"/>
+      <label class="nova-cpu-graph__value" text="{cpu}%"/>
+    </box>
+    <drawing class="nova-cpu-graph__canvas" width="120" height="40"/>
+  </box>
+vars:
+  cpu:
+    builtin: "sysmon::cpu_percent"
+    interval_ms: 1000
+    default: "0"
+default_style: |
+  .nova-cpu-graph {
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(30, 30, 46, 0.85);
+    border: 1px solid rgba(88, 91, 112, 0.4);
+  }
+  .nova-cpu-graph__label { font-size: 10px; color: #585b70; text-transform: uppercase; }
+  .nova-cpu-graph__value { font-size: 13px; font-weight: 700; color: #89b4fa; }
+  .nova-cpu-graph__canvas { border-radius: 4px; }

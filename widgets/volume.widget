@@ -1,0 +1,29 @@
+name: volume
+description: "Audio volume indicator with mute toggle and slider"
+template: |
+  <box class="nova-volume" orientation="h" spacing="8">
+    <button class="nova-volume__icon" icon="{icon}" action="volume::mute_toggle"/>
+    <scale   class="nova-volume__slider" value="{volume}" min="0.0" max="1.0" action="volume::set"/>
+    <label   class="nova-volume__label" text="{percent}%"/>
+  </box>
+vars:
+  volume:
+    builtin: "volume::fraction"
+    interval_ms: 1000
+    default: "1.0"
+  percent:
+    builtin: "volume::percent"
+    interval_ms: 1000
+    default: "100"
+  icon:
+    builtin: "volume::icon"
+    interval_ms: 1000
+    default: "audio-volume-high"
+default_style: |
+  .nova-volume {
+    padding: 8px 14px;
+    border-radius: 12px;
+    background: alpha(@bg_color, 0.75);
+  }
+  .nova-volume__slider { min-width: 100px; }
+  .nova-volume__label  { font-size: 12px; min-width: 38px; font-family: monospace; }

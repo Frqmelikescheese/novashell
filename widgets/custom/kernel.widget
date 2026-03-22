@@ -1,0 +1,26 @@
+# ── Kernel version widget ───────────────────────────────────────────────────
+# Shows the running kernel version as a minimal pill.
+# No dependencies — reads from uname.
+# Refreshes very infrequently (only changes after a reboot).
+name: kernel
+description: "Kernel version pill"
+template: |
+  <box class="nova-kernel" orientation="h" spacing="4">
+    <label class="nova-kernel__icon" text=""/>
+    <label class="nova-kernel__version" text="{version}"/>
+  </box>
+vars:
+  version:
+    script: "uname -r | sed 's/-[^-]*$//'"
+    interval_ms: 3600000
+    default: "linux"
+default_style: |
+  .nova-kernel {
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(30, 30, 46, 0.50);
+    border: 1px solid rgba(127, 132, 156, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+  }
+  .nova-kernel__icon    { font-size: 12px; color: #585b70; margin-right: 5px; }
+  .nova-kernel__version { font-size: 10px; color: #6c7086; letter-spacing: 0.3px; }

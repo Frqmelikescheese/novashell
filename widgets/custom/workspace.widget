@@ -1,0 +1,32 @@
+# ── Workspace indicator widget ─────────────────────────────────────────────
+# Shows the active Hyprland workspace as a pill with a dot + number.
+# For a full workspace switcher (all workspaces), build a plugin .so instead.
+# Requires: hyprctl (included with Hyprland)
+name: workspace
+description: "Active Hyprland workspace indicator pill"
+template: |
+  <box class="nova-workspace" orientation="h" spacing="6">
+    <label class="nova-workspace__icon" text=""/>
+    <label class="nova-workspace__id" text="{id}"/>
+    <label class="nova-workspace__name" text="{name}"/>
+  </box>
+vars:
+  id:
+    script: "hyprctl activeworkspace -j 2>/dev/null | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d['id'])\" 2>/dev/null || echo '1'"
+    interval_ms: 500
+    default: "1"
+  name:
+    script: "hyprctl activeworkspace -j 2>/dev/null | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('name',''))\" 2>/dev/null || echo ''"
+    interval_ms: 500
+    default: ""
+default_style: |
+  .nova-workspace {
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(30, 30, 46, 0.55);
+    border: 1px solid rgba(137, 180, 250, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,.40), 0 0 12px rgba(137,180,250,.10);
+  }
+  .nova-workspace__icon { font-size: 10px; color: #6c7086; margin-right: 2px; }
+  .nova-workspace__id   { font-size: 12px; font-weight: 800; color: #89b4fa; font-variant-numeric: tabular-nums; }
+  .nova-workspace__name { font-size: 10px; color: #7f849c; margin-left: 2px; }

@@ -1,0 +1,52 @@
+/* ── NovaShell minimal theme ─────────────────────────────────────────────── */
+/* A simple, clean dark theme. Pairs with the minimal/config.yaml example.   */
+
+* {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  color: #cdd6f4;
+  -gtk-icon-style: symbolic;
+}
+
+/* Panel background behind every widget */
+window {
+  background: transparent;
+}
+
+/* ── Clock ───────────────────────────────────────────────────────────────── */
+.nova-clock {
+  background: rgba(30, 30, 46, 0.85);
+  border-radius: 14px;
+  padding: 16px 22px;
+  border: 1px solid rgba(137, 180, 250, 0.15);
+}
+
+.nova-clock__time {
+  font-size: 48px;
+  font-weight: 800;
+  color: #cdd6f4;
+}
+
+.nova-clock__date {
+  font-size: 14px;
+  color: #89b4fa;
+  letter-spacing: 0.5px;
+}
+
+.nova-clock__day {
+  font-size: 11px;
+  color: #6c7086;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ── Battery ─────────────────────────────────────────────────────────────── */
+.nova-battery {
+  background: rgba(30, 30, 46, 0.85);
+  border-radius: 14px;
+  padding: 10px 16px;
+  border: 1px solid rgba(137, 180, 250, 0.15);
+}
+
+.nova-battery__percent { color: #a6e3a1; font-weight: 700; }
+.nova-battery__status  { color: #6c7086; font-size: 11px; }
+.nova-battery__bar     { color: #a6e3a1; }

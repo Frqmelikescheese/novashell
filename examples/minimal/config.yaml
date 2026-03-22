@@ -1,0 +1,25 @@
+# ── NovaShell minimal example config ─────────────────────────────────────────
+# A clean clock + battery setup for a single monitor.
+# Copy to ~/.config/novashell/config.yaml to activate.
+
+novashell:
+  log_level: info
+  hot_reload: true
+
+screens:
+  primary:
+    monitor: eDP-1          # change to your monitor (hyprctl monitors or xrandr)
+    layer: top              # top = above windows, bottom = below
+    exclusive_zone: 0       # don't reserve panel space
+    widgets:
+      - widget: clock
+        id: main-clock
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]
+
+      - widget: battery
+        id: battery
+        position:
+          anchor: top-right
+          margin: [160, 20, 0, 0]

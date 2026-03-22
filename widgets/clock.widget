@@ -1,0 +1,43 @@
+name: clock
+description: "Analog/digital clock with time, date, and day display"
+template: |
+  <box class="nova-clock" orientation="v" spacing="4">
+    <label class="nova-clock__time" text="{time}"/>
+    <label class="nova-clock__date" text="{date}"/>
+    <label class="nova-clock__day"  text="{day}"/>
+  </box>
+vars:
+  time:
+    builtin: "clock::time"
+    interval_ms: 1000
+    default: "00:00:00"
+  date:
+    builtin: "clock::date"
+    interval_ms: 60000
+    default: "January 1"
+  day:
+    builtin: "clock::day"
+    interval_ms: 60000
+    default: "Monday"
+default_style: |
+  .nova-clock {
+    padding: 18px 22px;
+    border-radius: 12px;
+    background: alpha(@bg_color, 0.75);
+  }
+  .nova-clock__time {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+  .nova-clock__date {
+    font-size: 15px;
+    opacity: 0.80;
+    margin-top: 2px;
+  }
+  .nova-clock__day {
+    font-size: 12px;
+    opacity: 0.55;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }

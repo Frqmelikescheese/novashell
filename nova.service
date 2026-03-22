@@ -1,0 +1,17 @@
+[Unit]
+Description=Nova — desktop ricing engine
+After=graphical-session.target
+PartOf=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/nova daemon --foreground
+ExecReload=%h/.local/bin/nova reload
+Restart=on-failure
+RestartSec=3s
+Environment=NOVA_LOG=info
+PassEnvironment=DISPLAY WAYLAND_DISPLAY XDG_RUNTIME_DIR XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,237 @@
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  NovaShell Theme: Dracula Neon                                              */
+/*  Mood: pure neon cyberpunk — hot pink, acid green, cyan on void black       */
+/*  Apply: cp themes/dracula-neon.css ~/.config/novashell/style.css            */
+/*  This is the most extreme / aggressive rice theme.                          */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* Dracula palette */
+@define-color bg          #282a36;
+@define-color bg_dark     #21222c;
+@define-color bg_darker   #191a21;
+@define-color selection   #44475a;
+@define-color comment     #6272a4;
+@define-color fg          #f8f8f2;
+@define-color cyan        #8be9fd;
+@define-color green       #50fa7b;
+@define-color orange      #ffb86c;
+@define-color pink        #ff79c6;
+@define-color purple      #bd93f9;
+@define-color red         #ff5555;
+@define-color yellow      #f1fa8c;
+
+/* Semantic aliases */
+@define-color text     @fg;
+@define-color subtext0 #bcc2e0;
+@define-color surface0 @selection;
+@define-color surface1 #50536b;
+@define-color overlay0 @comment;
+@define-color overlay1 #7b8cc7;
+@define-color blue     @purple;
+@define-color teal     @cyan;
+@define-color sky      @cyan;
+@define-color sapphire @purple;
+@define-color mauve    @pink;
+@define-color lavender @purple;
+@define-color peach    @orange;
+@define-color crust    @bg_darker;
+
+@define-color glass-bg    rgba(25, 26, 33, 0.58);
+@define-color glass-light rgba(68, 71, 90, 0.40);
+@define-color glass-rim   rgba(248, 248, 242, 0.06);
+@define-color glass-shine rgba(189, 147, 249, 0.08);
+
+/* Neon animations — stronger than any other theme */
+@keyframes nova-neon-pink {
+  0%,100% {
+    box-shadow:
+      0 2px 8px rgba(0,0,0,.60),
+      0 0 10px rgba(255,121,198,.25),
+      0 0 30px rgba(255,121,198,.12),
+      inset 0 1px 0 rgba(255,121,198,.10);
+  }
+  50% {
+    box-shadow:
+      0 2px 8px rgba(0,0,0,.60),
+      0 0 20px rgba(255,121,198,.65),
+      0 0 50px rgba(255,121,198,.25),
+      inset 0 1px 0 rgba(255,121,198,.15);
+  }
+}
+@keyframes nova-neon-purple {
+  0%,100% {
+    box-shadow:
+      0 2px 8px rgba(0,0,0,.60),
+      0 0 10px rgba(189,147,249,.22),
+      0 0 28px rgba(189,147,249,.10),
+      inset 0 1px 0 @glass-shine;
+  }
+  50% {
+    box-shadow:
+      0 2px 8px rgba(0,0,0,.60),
+      0 0 22px rgba(189,147,249,.60),
+      0 0 48px rgba(189,147,249,.22),
+      inset 0 1px 0 @glass-shine;
+  }
+}
+@keyframes nova-neon-cyan {
+  0%,100% { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0  8px rgba(139,233,253,.18), inset 0 1px 0 rgba(139,233,253,.08); }
+  50%     { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 24px rgba(139,233,253,.55), inset 0 1px 0 rgba(139,233,253,.12); }
+}
+@keyframes nova-neon-green {
+  0%,100% { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0  8px rgba(80,250,123,.18); }
+  50%     { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 24px rgba(80,250,123,.55); }
+}
+@keyframes nova-glow-red {
+  0%,100% { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 12px rgba(255,85,85,.25); }
+  50%     { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 35px rgba(255,85,85,.65); }
+}
+@keyframes nova-bar-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+* {
+  font-family: "JetBrains Mono", "Iosevka", monospace;
+  color: @text;
+  -gtk-icon-style: symbolic;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+window { background: transparent; }
+
+.nova-clock, .nova-sysmon, .nova-cava,
+.nova-media, .nova-battery, .nova-volume, .nova-launcher,
+.nova-workspace, .nova-weather, .nova-wifi, .nova-updates,
+.nova-gpu, .nova-uptime, .nova-kernel {
+  background: @glass-bg;
+  border: 1px solid @glass-rim;
+  box-shadow: 0 2px 8px rgba(0,0,0,.60), 0 16px 52px rgba(0,0,0,.40), inset 0 1px 0 @glass-shine;
+}
+
+/* ── Clock — hot pink neon glow ──────────────────────────────────────────── */
+.nova-clock {
+  padding: 22px 28px; border-radius: 20px; min-width: 170px;
+  border: 1px solid rgba(255,121,198,.20);
+  animation: nova-neon-pink 3s ease-in-out infinite;
+}
+.nova-clock__time {
+  font-size: 58px; font-weight: 900; color: @fg; letter-spacing: -3px;
+  text-shadow: 0 0 20px rgba(255,121,198,.55), 0 0 40px rgba(255,121,198,.25);
+}
+.nova-clock__date { font-size: 13px; color: @pink; margin-top: 5px; letter-spacing: 1px; }
+.nova-clock__day  { font-size: 9px; color: @comment; text-transform: uppercase; letter-spacing: 3px; margin-top: 2px; }
+
+/* ── Sysmon ──────────────────────────────────────────────────────────────── */
+.nova-sysmon { padding: 14px 18px; border-radius: 18px; min-width: 210px; }
+.nova-sysmon__title { font-size: 9px; color: @comment; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; }
+.nova-sysmon__label { min-width: 38px; font-size: 10px; color: @overlay1; }
+.nova-sysmon__value { font-size: 11px; min-width: 52px; color: @subtext0; font-variant-numeric: tabular-nums; }
+.nova-sysmon__bar   { min-height: 5px; border-radius: 3px; background: @selection; }
+.nova-sysmon__bar--cpu levelbar block.filled {
+  background: linear-gradient(90deg, @cyan, @purple, @pink, @cyan);
+  background-size: 300% 300%; animation: nova-bar-flow 2s ease infinite;
+  border-radius: 3px; box-shadow: 0 0 12px rgba(139,233,253,.70);
+}
+.nova-sysmon__bar--ram levelbar block.filled {
+  background: linear-gradient(90deg, @pink, @purple, @pink);
+  background-size: 300% 300%; animation: nova-bar-flow 2.5s ease infinite;
+  border-radius: 3px; box-shadow: 0 0 12px rgba(255,121,198,.65);
+}
+
+/* ── Cava ────────────────────────────────────────────────────────────────── */
+.nova-cava {
+  padding: 6px 12px; border-radius: 12px;
+  background: rgba(25,26,33,.32); border: 1px solid rgba(255,121,198,.06); box-shadow: none;
+}
+
+/* ── Media — purple neon card ────────────────────────────────────────────── */
+.nova-media {
+  padding: 16px 20px; border-radius: 20px; min-width: 270px;
+  border: 1px solid rgba(189,147,249,.18); animation: nova-neon-purple 4s ease-in-out infinite;
+}
+.nova-media__title  { font-weight: 700; font-size: 13px; color: @fg; }
+.nova-media__artist { font-size: 11px; color: @comment; margin-top: 2px; }
+.nova-media__btn { padding: 6px; border-radius: 8px; min-width: 30px; min-height: 30px; background: @glass-light; border: 1px solid @glass-rim; }
+.nova-media__btn:hover { background: @selection; box-shadow: 0 0 14px rgba(189,147,249,.35); }
+.nova-media__btn--playpause {
+  background: @pink; color: @bg_dark; border: none;
+  box-shadow: 0 0 18px rgba(255,121,198,.65), 0 0 36px rgba(255,121,198,.25);
+}
+.nova-media__btn--playpause:hover {
+  box-shadow: 0 0 28px rgba(255,121,198,.90), 0 0 55px rgba(255,121,198,.35);
+}
+.nova-media__progress trough { background: @selection; min-height: 3px; border-radius: 2px; margin-top: 10px; }
+.nova-media__progress trough highlight { background: linear-gradient(90deg, @pink, @purple, @cyan); border-radius: 2px; }
+
+/* ── Battery — neon green pill ───────────────────────────────────────────── */
+.nova-battery {
+  padding: 9px 18px; border-radius: 999px;
+  border: 1px solid rgba(80,250,123,.25);
+  animation: nova-neon-green 4s ease-in-out infinite;
+}
+.nova-battery__icon    { font-size: 16px; color: @green; margin-right: 5px; text-shadow: 0 0 8px rgba(80,250,123,.70); }
+.nova-battery__percent { font-weight: 800; font-size: 13px; color: @green; font-variant-numeric: tabular-nums; text-shadow: 0 0 8px rgba(80,250,123,.70); }
+.nova-battery__status  { font-size: 10px; color: @comment; margin-left: 5px; }
+.nova-battery__bar { min-width: 60px; min-height: 3px; border-radius: 2px; background: @selection; }
+.nova-battery__bar levelbar block.filled { background: linear-gradient(90deg,@green,@cyan); border-radius: 2px; box-shadow: 0 0 10px rgba(80,250,123,.60); }
+.nova-battery.warning .nova-battery__icon,
+.nova-battery.warning .nova-battery__percent { color: @yellow; text-shadow: 0 0 8px rgba(241,250,140,.60); }
+.nova-battery.critical { animation: nova-glow-red .8s ease-in-out infinite; }
+.nova-battery.critical .nova-battery__icon,
+.nova-battery.critical .nova-battery__percent { color: @red; text-shadow: 0 0 12px rgba(255,85,85,.80); }
+
+/* ── Volume — cyan pill ──────────────────────────────────────────────────── */
+.nova-volume {
+  padding: 9px 18px; border-radius: 999px; min-width: 148px;
+  border: 1px solid rgba(139,233,253,.20);
+  animation: nova-neon-cyan 4.5s ease-in-out infinite;
+}
+.nova-volume__icon  { font-size: 14px; color: @cyan; margin-right: 6px; text-shadow: 0 0 6px rgba(139,233,253,.60); }
+.nova-volume__label { font-size: 11px; min-width: 36px; color: @subtext0; font-variant-numeric: tabular-nums; }
+.nova-volume__slider trough           { background: @selection; min-height: 3px; border-radius: 2px; }
+.nova-volume__slider trough highlight { background: linear-gradient(90deg,@cyan,@green); border-radius: 2px; }
+.nova-volume__slider slider { min-width: 10px; min-height: 10px; border-radius: 50%; background: @cyan; border: none; box-shadow: 0 0 12px rgba(139,233,253,.75); }
+.nova-volume__slider slider:hover { min-width: 14px; min-height: 14px; box-shadow: 0 0 22px rgba(139,233,253,.95); }
+
+/* ── Launcher ────────────────────────────────────────────────────────────── */
+.nova-launcher { padding: 5px 8px; border-radius: 999px; background: rgba(25,26,33,.48); border: 1px solid rgba(189,147,249,.12); }
+.nova-launcher__btn { border-radius: 999px; padding: 6px 18px; background: rgba(255,121,198,.08); color: @pink; border: 1px solid rgba(255,121,198,.22); font-size: 12px; }
+.nova-launcher__btn:hover { background: rgba(255,121,198,.20); color: @fg; border-color: rgba(255,121,198,.60); box-shadow: 0 0 22px rgba(255,121,198,.45), 0 0 45px rgba(255,121,198,.18); }
+
+/* ── Plugin widgets ──────────────────────────────────────────────────────── */
+.nova-workspace { padding: 8px 12px; border-radius: 999px; }
+.nova-workspace__dot { min-width: 7px; min-height: 7px; border-radius: 50%; background: @selection; margin: 0 3px; transition: all 180ms ease; }
+.nova-workspace__dot.active {
+  min-width: 18px; background: @pink; border-radius: 999px;
+  box-shadow: 0 0 14px rgba(255,121,198,.75), 0 0 28px rgba(255,121,198,.35);
+}
+.nova-workspace__dot.occupied { background: @comment; }
+.nova-workspace__id { font-size: 11px; font-weight: 700; color: @pink; text-shadow: 0 0 8px rgba(255,121,198,.60); }
+
+.nova-weather { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(139,233,253,.18); }
+.nova-weather__icon { font-size: 18px; margin-right: 6px; }
+.nova-weather__temp { font-size: 13px; font-weight: 700; color: @cyan; text-shadow: 0 0 6px rgba(139,233,253,.50); }
+.nova-weather__cond { font-size: 10px; color: @comment; margin-left: 4px; }
+
+.nova-wifi { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(189,147,249,.18); }
+.nova-wifi__icon { font-size: 14px; color: @purple; margin-right: 6px; text-shadow: 0 0 6px rgba(189,147,249,.50); }
+.nova-wifi__ssid { font-size: 11px; color: @subtext0; }
+
+.nova-updates { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,184,108,.18); }
+.nova-updates__icon  { font-size: 13px; color: @orange; margin-right: 5px; }
+.nova-updates__count { font-size: 12px; font-weight: 700; color: @orange; font-variant-numeric: tabular-nums; }
+.nova-updates__label { font-size: 10px; color: @comment; margin-left: 3px; }
+
+.nova-gpu { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(189,147,249,.18); }
+.nova-gpu__icon    { font-size: 13px; color: @purple; margin-right: 5px; text-shadow: 0 0 6px rgba(189,147,249,.50); }
+.nova-gpu__percent { font-size: 12px; font-weight: 700; color: @purple; font-variant-numeric: tabular-nums; }
+.nova-gpu__temp    { font-size: 10px; color: @orange; margin-left: 6px; }
+
+.nova-uptime { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(189,147,249,.12); }
+.nova-uptime__icon  { font-size: 12px; color: @comment; margin-right: 5px; }
+.nova-uptime__value { font-size: 11px; color: @subtext0; }
+
+.nova-kernel { padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(98,114,164,.20); }
+.nova-kernel__icon    { font-size: 12px; color: @comment; margin-right: 5px; }
+.nova-kernel__version { font-size: 10px; color: @comment; letter-spacing: .3px; }

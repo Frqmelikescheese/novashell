@@ -1,0 +1,90 @@
+# ── NovaShell full rice config ────────────────────────────────────────────────
+# Complete Catppuccin Mocha setup for a 2560×1440 primary monitor.
+# Includes clock, sysmon, cava, media, battery, volume, and launcher.
+# Copy to ~/.config/novashell/config.yaml to activate.
+
+novashell:
+  log_level: info
+  hot_reload: true
+
+defaults:
+  font: "JetBrains Mono"
+  font_size: 12
+  border_radius: 14
+  padding: 12
+
+screens:
+  # ── Primary monitor (2560×1440) ──────────────────────────────────────────
+  primary:
+    monitor: DP-1
+    layer: top
+    exclusive_zone: 0
+
+    widgets:
+      # Clock — top centre
+      - widget: clock
+        id: clock-main
+        position:
+          anchor: top
+          margin: [20, 0, 0, 0]
+
+      # System monitor — top-right
+      - widget: sysmon
+        id: sysmon-main
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]
+
+      # Audio visualizer — bottom centre
+      - widget: cava
+        id: cava-main
+        vars:
+          bar_count: "32"
+          color_active: "#cba6f7"
+          color_inactive: "#313244"
+          gap: "3"
+        position:
+          anchor: bottom
+          margin: [0, 0, 20, 0]
+
+      # Media player — bottom-right
+      - widget: media
+        id: media-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 20, 0]
+
+      # Battery — top-left, below launcher
+      - widget: battery
+        id: battery-main
+        position:
+          anchor: top-left
+          margin: [80, 0, 0, 20]
+
+      # Volume — bottom-left
+      - widget: volume
+        id: volume-main
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 20, 20]
+
+      # App launcher — top-left
+      - widget: launcher
+        id: launcher-main
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 20]
+
+  # ── Secondary monitor (optional) ─────────────────────────────────────────
+  secondary:
+    monitor: HDMI-A-1
+    layer: top
+    exclusive_zone: 0
+    enabled: false           # set true to activate
+
+    widgets:
+      - widget: clock
+        id: clock-secondary
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]

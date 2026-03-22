@@ -1,0 +1,69 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  NovaShell — Minimal Rice
+#  Tiny footprint: just a clock, a handful of pills, and nothing else.
+#  Works with any theme — most readable with nord-ice or rose-pine.
+#  CSS: cp themes/nord-ice.css style.css
+# ══════════════════════════════════════════════════════════════════════════════
+
+novashell:
+  log_level: warn
+  hot_reload: true
+
+defaults:
+  font: "JetBrains Mono"
+  font_size: 11
+  border_radius: 999
+  padding: 6
+
+screens:
+  primary:
+    monitor: DP-1
+    layer: top
+    exclusive_zone: 0
+    enabled: true
+
+    widgets:
+
+      # ── TOP RIGHT: clock only ─────────────────────────────────────────────
+      - widget: clock
+        id: clock-main
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]
+
+      # ── TOP LEFT: three pills ─────────────────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/workspace.widget
+        id: workspace
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 20]
+
+      - widget: battery
+        id: battery-main
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 110]
+
+      - widget: volume
+        id: volume-main
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 228]
+
+      # ── BOTTOM: cava, centered, thin ──────────────────────────────────────
+      - widget: cava
+        id: cava-main
+        vars:
+          bar_count: "20"
+          color_active: "#88c0d0"
+          gap: "4"
+        position:
+          anchor: bottom
+          margin: [0, 0, 18, 0]
+
+      # ── BOTTOM RIGHT: media only ──────────────────────────────────────────
+      - widget: media
+        id: media-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 18, 0]

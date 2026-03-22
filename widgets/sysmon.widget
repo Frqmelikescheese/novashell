@@ -1,0 +1,81 @@
+name: sysmon
+description: "CPU, RAM, and network usage monitor with live progress bars"
+template: |
+  <box class="nova-sysmon" orientation="v" spacing="6">
+    <label class="nova-sysmon__title" text="System"/>
+    <separator/>
+    <box class="nova-sysmon__row" orientation="h" spacing="8">
+      <label class="nova-sysmon__label" text="CPU"/>
+      <levelbar class="nova-sysmon__bar nova-sysmon__bar--cpu" value="{cpu_fraction}"/>
+      <label class="nova-sysmon__value" text="{cpu_percent}%"/>
+    </box>
+    <box class="nova-sysmon__row" orientation="h" spacing="8">
+      <label class="nova-sysmon__label" text="MEM"/>
+      <levelbar class="nova-sysmon__bar nova-sysmon__bar--ram" value="{ram_fraction}"/>
+      <label class="nova-sysmon__value" text="{ram_used}"/>
+    </box>
+    <box class="nova-sysmon__row" orientation="h" spacing="8">
+      <label class="nova-sysmon__label" text="UP "/>
+      <label class="nova-sysmon__value nova-sysmon__value--net" text="{net_tx}"/>
+    </box>
+    <box class="nova-sysmon__row" orientation="h" spacing="8">
+      <label class="nova-sysmon__label" text="DN "/>
+      <label class="nova-sysmon__value nova-sysmon__value--net" text="{net_rx}"/>
+    </box>
+  </box>
+vars:
+  cpu_percent:
+    builtin: "sysmon::cpu_percent"
+    interval_ms: 2000
+    default: "0"
+  cpu_fraction:
+    builtin: "sysmon::cpu_fraction"
+    interval_ms: 2000
+    default: "0.0"
+  ram_used:
+    builtin: "sysmon::ram_used"
+    interval_ms: 3000
+    default: "0 MB"
+  ram_fraction:
+    builtin: "sysmon::ram_fraction"
+    interval_ms: 3000
+    default: "0.0"
+  net_rx:
+    builtin: "sysmon::net_rx"
+    interval_ms: 2000
+    default: "0 B/s"
+  net_tx:
+    builtin: "sysmon::net_tx"
+    interval_ms: 2000
+    default: "0 B/s"
+default_style: |
+  .nova-sysmon {
+    padding: 14px 16px;
+    min-width: 190px;
+    border-radius: 12px;
+    background: alpha(@bg_color, 0.75);
+  }
+  .nova-sysmon__title {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+  .nova-sysmon__label {
+    min-width: 36px;
+    font-size: 11px;
+    font-family: monospace;
+    opacity: 0.65;
+  }
+  .nova-sysmon__value {
+    font-size: 12px;
+    font-family: monospace;
+    min-width: 52px;
+  }
+  .nova-sysmon__bar {
+    min-width: 80px;
+    min-height: 6px;
+    border-radius: 3px;
+  }

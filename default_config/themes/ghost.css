@@ -1,0 +1,342 @@
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  NovaShell Theme: Ghost                                                     */
+/*  Mood: zero background, widgets float as raw text/glyphs on the desktop    */
+/*  Everything is transparent — only type, icons, and glowing bars exist.     */
+/*  Apply: cp themes/ghost.css ~/.config/novashell/style.css                  */
+/*                                                                            */
+/*  Works best with a dark or mid-tone wallpaper.                             */
+/*  For light wallpapers: flip text colors to dark in the palette below.      */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Palette — change these to match your wallpaper accent colors ─────────── */
+@define-color text     rgba(230, 230, 240, 0.92);
+@define-color dim      rgba(180, 180, 200, 0.55);
+@define-color faint    rgba(140, 140, 160, 0.38);
+
+/* Accent glows — pick colors that complement your wallpaper */
+@define-color accent1  #c4a7e7;   /* iris/lavender — clock, primary */
+@define-color accent2  #9ccfd8;   /* foam/teal — volume, bars */
+@define-color accent3  #ebbcba;   /* rose — media play */
+@define-color accent4  #f6c177;   /* gold — battery, updates */
+@define-color accent5  #31748f;   /* pine — wifi */
+@define-color accent6  #eb6f92;   /* love — critical states */
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+* {
+  font-family: "JetBrains Mono", "Iosevka", monospace;
+  color: @text;
+  -gtk-icon-style: symbolic;
+  transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+window { background: transparent; }
+
+/* ── Nuke all panel chrome ────────────────────────────────────────────────── */
+.nova-clock, .nova-sysmon, .nova-cava,
+.nova-media, .nova-battery, .nova-volume, .nova-launcher,
+.nova-workspace, .nova-weather, .nova-wifi, .nova-updates,
+.nova-gpu, .nova-uptime, .nova-kernel {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  CLOCK — giant floating type                                               */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-clock { padding: 0; }
+
+.nova-clock__time {
+  font-size: 72px;
+  font-weight: 900;
+  color: @text;
+  letter-spacing: -4px;
+  /* Soft shadow so it reads on any wallpaper */
+  text-shadow:
+    0 0 40px rgba(196, 167, 231, 0.35),
+    0  2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.nova-clock__date {
+  font-size: 13px;
+  color: @accent1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  text-shadow: 0 0 12px rgba(196, 167, 231, 0.45);
+}
+
+.nova-clock__day {
+  font-size: 9px;
+  color: @faint;
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  SYSMON — floating labels + glowing bars                                  */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-sysmon { padding: 0; min-width: 200px; }
+
+.nova-sysmon__title {
+  font-size: 8px;
+  color: @faint;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.nova-sysmon__label { min-width: 38px; font-size: 10px; color: @faint; }
+.nova-sysmon__value { font-size: 11px; min-width: 50px; color: @dim; font-variant-numeric: tabular-nums; }
+
+.nova-sysmon__bar {
+  min-height: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nova-sysmon__bar--cpu levelbar block.filled {
+  background: @accent1;
+  border-radius: 1px;
+  box-shadow: 0 0 6px rgba(196, 167, 231, 0.80);
+}
+
+.nova-sysmon__bar--ram levelbar block.filled {
+  background: @accent2;
+  border-radius: 1px;
+  box-shadow: 0 0 6px rgba(156, 207, 216, 0.80);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  CAVA — bare bars, no container                                           */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-cava { padding: 0; }
+.nova-cava__canvas { border-radius: 2px; }
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  MEDIA — floating text, no card                                           */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-media { padding: 0; min-width: 240px; }
+
+.nova-media__title {
+  font-weight: 700;
+  font-size: 13px;
+  color: @text;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.60);
+}
+
+.nova-media__artist {
+  font-size: 11px;
+  color: @dim;
+  margin-top: 2px;
+}
+
+.nova-media__album {
+  font-size: 10px;
+  color: @faint;
+  margin-top: 1px;
+  font-style: italic;
+}
+
+.nova-media__player {
+  font-size: 8px;
+  color: @faint;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+
+.nova-media__time,
+.nova-media__duration {
+  font-size: 9px;
+  color: @faint;
+  font-variant-numeric: tabular-nums;
+  min-width: 28px;
+}
+
+.nova-media__btn--active {
+  color: @accent1;
+  text-shadow: 0 0 8px rgba(196, 167, 231, 0.70);
+}
+
+.nova-media--playing .nova-media__title { color: @text; }
+.nova-media--paused  .nova-media__title { color: @dim; }
+.nova-media--stopped .nova-media__title { color: @faint; }
+
+/* Ghost buttons — icon only, no box */
+.nova-media__btn {
+  padding: 4px;
+  border-radius: 50%;
+  min-width: 26px;
+  min-height: 26px;
+  background: transparent;
+  border: none;
+  color: @dim;
+}
+
+.nova-media__btn:hover {
+  color: @text;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nova-media__btn--playpause {
+  color: @accent3;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  text-shadow: 0 0 10px rgba(235, 188, 186, 0.70);
+}
+
+.nova-media__btn--playpause:hover {
+  text-shadow: 0 0 18px rgba(235, 188, 186, 0.90);
+}
+
+/* Hairline progress track */
+.nova-media__progress trough {
+  background: rgba(255, 255, 255, 0.08);
+  min-height: 2px;
+  border-radius: 1px;
+  margin-top: 10px;
+}
+
+.nova-media__progress trough highlight {
+  background: @accent3;
+  border-radius: 1px;
+  box-shadow: 0 0 6px rgba(235, 188, 186, 0.60);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  BATTERY — inline text only                                               */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-battery { padding: 0; }
+
+.nova-battery__icon    { font-size: 15px; color: @accent4; margin-right: 5px; text-shadow: 0 0 8px rgba(246, 193, 119, 0.55); }
+.nova-battery__percent { font-weight: 700; font-size: 13px; color: @accent4; font-variant-numeric: tabular-nums; }
+.nova-battery__status  { font-size: 10px; color: @faint; margin-left: 4px; }
+
+.nova-battery__bar {
+  min-width: 50px;
+  min-height: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nova-battery__bar levelbar block.filled {
+  background: @accent4;
+  border-radius: 1px;
+  box-shadow: 0 0 5px rgba(246, 193, 119, 0.60);
+}
+
+.nova-battery.warning .nova-battery__icon,
+.nova-battery.warning .nova-battery__percent { color: rgba(246, 193, 119, 0.70); }
+
+.nova-battery.critical .nova-battery__icon,
+.nova-battery.critical .nova-battery__percent {
+  color: @accent6;
+  text-shadow: 0 0 10px rgba(235, 111, 146, 0.75);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  VOLUME — floating icon + slider                                          */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-volume { padding: 0; min-width: 130px; }
+
+.nova-volume__icon  { font-size: 13px; color: @accent2; margin-right: 6px; text-shadow: 0 0 7px rgba(156, 207, 216, 0.55); }
+.nova-volume__label { font-size: 11px; min-width: 34px; color: @dim; font-variant-numeric: tabular-nums; }
+
+.nova-volume__slider trough           { background: rgba(255, 255, 255, 0.07); min-height: 2px; border-radius: 1px; }
+.nova-volume__slider trough highlight { background: @accent2; border-radius: 1px; box-shadow: 0 0 5px rgba(156, 207, 216, 0.55); }
+
+.nova-volume__slider slider {
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 50%;
+  background: @accent2;
+  border: none;
+  box-shadow: 0 0 8px rgba(156, 207, 216, 0.70);
+}
+
+.nova-volume__slider slider:hover {
+  min-width: 11px;
+  min-height: 11px;
+  box-shadow: 0 0 14px rgba(156, 207, 216, 0.90);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  LAUNCHER — ghost text button                                             */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.nova-launcher { padding: 0; background: transparent; border: none; }
+
+.nova-launcher__btn {
+  border-radius: 6px;
+  padding: 5px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: @dim;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 11px;
+}
+
+.nova-launcher__btn:hover {
+  background: rgba(196, 167, 231, 0.10);
+  color: @accent1;
+  border-color: rgba(196, 167, 231, 0.22);
+  text-shadow: 0 0 8px rgba(196, 167, 231, 0.40);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  PLUGIN WIDGETS — all floating, no chrome                                 */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* Workspaces */
+.nova-workspace { padding: 0; }
+.nova-workspace__dot {
+  min-width: 5px; min-height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 4px;
+  transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nova-workspace__dot.active {
+  min-width: 16px;
+  background: @accent1;
+  border-radius: 999px;
+  box-shadow: 0 0 8px rgba(196, 167, 231, 0.75);
+}
+.nova-workspace__dot.occupied { background: rgba(255, 255, 255, 0.30); }
+.nova-workspace__id   { font-size: 11px; font-weight: 700; color: @accent1; text-shadow: 0 0 6px rgba(196,167,231,.50); }
+
+/* Weather */
+.nova-weather { padding: 0; }
+.nova-weather__icon { font-size: 20px; margin-right: 6px; }
+.nova-weather__temp { font-size: 14px; font-weight: 700; color: @accent2; text-shadow: 0 0 8px rgba(156,207,216,.45); }
+.nova-weather__cond { font-size: 10px; color: @faint; margin-left: 5px; }
+
+/* WiFi */
+.nova-wifi { padding: 0; }
+.nova-wifi__icon   { font-size: 14px; color: @accent5; margin-right: 5px; }
+.nova-wifi__ssid   { font-size: 11px; color: @dim; }
+.nova-wifi__signal { font-size: 10px; color: @faint; margin-left: 4px; }
+
+/* Updates */
+.nova-updates { padding: 0; }
+.nova-updates__icon  { font-size: 12px; color: @accent4; margin-right: 4px; }
+.nova-updates__count { font-size: 12px; font-weight: 700; color: @accent4; font-variant-numeric: tabular-nums; }
+.nova-updates__label { font-size: 10px; color: @faint; margin-left: 3px; }
+
+/* GPU */
+.nova-gpu { padding: 0; }
+.nova-gpu__icon    { font-size: 12px; color: @accent1; margin-right: 4px; }
+.nova-gpu__percent { font-size: 12px; font-weight: 700; color: @accent1; font-variant-numeric: tabular-nums; }
+.nova-gpu__label   { font-size: 10px; color: @faint; margin-left: 3px; }
+.nova-gpu__temp    { font-size: 10px; color: @accent4; margin-left: 6px; }
+
+/* Uptime */
+.nova-uptime { padding: 0; }
+.nova-uptime__icon  { font-size: 11px; color: @faint; margin-right: 4px; }
+.nova-uptime__value { font-size: 11px; color: @dim; }
+
+/* Kernel */
+.nova-kernel { padding: 0; }
+.nova-kernel__icon    { font-size: 11px; color: @faint; margin-right: 4px; }
+.nova-kernel__version { font-size: 10px; color: @faint; letter-spacing: 0.3px; }

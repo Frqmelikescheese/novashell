@@ -1,0 +1,132 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  NovaShell — Tokyo Night (full cyberpunk rice)
+#  CSS: ~/.config/novashell/themes/tokyo-night.css
+#       → cp themes/tokyo-night.css style.css
+#
+#  Hyprland compositor blur:
+#    layerrule = blur, novashell
+#    layerrule = ignorezero, novashell
+#    decoration { blur { size = 10; passes = 4; } }
+#
+#  Recommended: set bar_color_active to #7aa2f7 in cava config
+# ══════════════════════════════════════════════════════════════════════════════
+
+novashell:
+  log_level: info
+  hot_reload: true
+
+defaults:
+  font: "JetBrains Mono"
+  font_size: 12
+  border_radius: 16
+  padding: 8
+
+screens:
+  primary:
+    monitor: DP-1
+    layer: top
+    exclusive_zone: 0
+    enabled: true
+
+    widgets:
+
+      # ── TOP RIGHT: clock (electric blue glow) ─────────────────────────────
+      - widget: clock
+        id: clock-main
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]
+
+      # ── TOP RIGHT: GPU (below clock) ──────────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/gpu_usage.widget
+        id: gpu
+        position:
+          anchor: top-right
+          margin: [198, 20, 0, 0]
+
+      - widget: sysmon
+        id: sysmon-main
+        position:
+          anchor: top-right
+          margin: [252, 20, 0, 0]
+
+      # ── TOP LEFT: workspace + status row ──────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/workspace.widget
+        id: workspace
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 20]
+
+      - widget: battery
+        id: battery-main
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 108]
+
+      - widget: ~/.config/novashell/widgets/custom/pacman_updates.widget
+        id: updates
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 240]
+
+      # ── TOP CENTER: weather ───────────────────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/weather.widget
+        id: weather
+        vars:
+          location: ""
+        position:
+          anchor: top
+          margin: [20, 0, 0, 0]
+
+      # ── BOTTOM CENTER: cava (wider, cyberpunk feel) ───────────────────────
+      - widget: cava
+        id: cava-main
+        vars:
+          bar_count: "40"
+          color_active: "#7aa2f7"
+          gap: "2"
+        position:
+          anchor: bottom
+          margin: [0, 0, 24, 0]
+
+      # ── BOTTOM RIGHT: media player ────────────────────────────────────────
+      - widget: media
+        id: media-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 24, 0]
+
+      - widget: volume
+        id: volume-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 98, 0]
+
+      # ── BOTTOM LEFT: wifi + uptime + kernel ───────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/network_ssid.widget
+        id: wifi
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 24, 20]
+
+      - widget: ~/.config/novashell/widgets/custom/uptime.widget
+        id: uptime
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 24, 182]
+
+      - widget: ~/.config/novashell/widgets/custom/kernel.widget
+        id: kernel
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 24, 310]
+
+      # ── LEFT: launcher (neon hover) ───────────────────────────────────────
+      - widget: launcher
+        id: launcher-main
+        vars:
+          label: " Launch"
+          command: "rofi -show drun"
+        position:
+          anchor: left
+          margin: [0, 0, 0, 20]

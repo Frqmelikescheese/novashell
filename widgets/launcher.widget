@@ -1,0 +1,19 @@
+name: launcher
+description: "Application launcher button that opens a search overlay"
+template: |
+  <box class="nova-launcher" orientation="h" spacing="6">
+    <button class="nova-launcher__btn" icon="system-search" action="launcher::open">
+      <label class="nova-launcher__label" text="Apps"/>
+    </button>
+  </box>
+default_style: |
+  .nova-launcher {
+    padding: 6px 10px;
+    border-radius: 12px;
+    background: alpha(@bg_color, 0.75);
+  }
+  .nova-launcher__btn {
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }

@@ -1,0 +1,30 @@
+name: cava
+description: "Audio spectrum visualizer — reads from cava raw output pipe"
+template: |
+  <box class="nova-cava" orientation="v">
+    <drawing class="nova-cava__canvas" width="280" height="80"/>
+  </box>
+vars:
+  bars:
+    builtin: "cava::bars"
+    interval_ms: 50
+    default: ""
+  bar_count:
+    default: "20"
+  color_active:
+    default: "#89b4fa"
+  color_inactive:
+    default: "#313244"
+  gap:
+    default: "3"
+  smoothing:
+    default: "0.7"
+default_style: |
+  .nova-cava {
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: alpha(@bg_color, 0.75);
+  }
+  .nova-cava__canvas {
+    border-radius: 4px;
+  }

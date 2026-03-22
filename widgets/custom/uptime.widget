@@ -1,0 +1,34 @@
+# ── System uptime widget ────────────────────────────────────────────────────
+# Shows how long the system has been running as a compact pill.
+# No external dependencies — reads from /proc/uptime directly.
+name: uptime
+description: "System uptime pill — no dependencies"
+template: |
+  <box class="nova-uptime" orientation="h" spacing="4">
+    <label class="nova-uptime__icon" text=""/>
+    <label class="nova-uptime__value" text="{uptime}"/>
+  </box>
+vars:
+  uptime:
+    script: |
+      secs=$(awk '{print int($1)}' /proc/uptime)
+      d=$((secs/86400)); h=$(((secs%86400)/3600)); m=$(((secs%3600)/60))
+      if [ $d -gt 0 ]; then
+        echo "${d}d ${h}h"
+      elif [ $h -gt 0 ]; then
+        echo "${h}h ${m}m"
+      else
+        echo "${m}m"
+      fi
+    interval_ms: 30000
+    default: "0m"
+default_style: |
+  .nova-uptime {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(30, 30, 46, 0.55);
+    border: 1px solid rgba(180, 190, 254, 0.12);
+    box-shadow: 0 2px 8px rgba(0,0,0,.38);
+  }
+  .nova-uptime__icon  { font-size: 12px; color: #b4befe; margin-right: 5px; }
+  .nova-uptime__value { font-size: 11px; color: #a6adc8; font-variant-numeric: tabular-nums; }

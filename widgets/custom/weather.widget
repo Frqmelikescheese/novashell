@@ -1,0 +1,42 @@
+# ── Weather widget ──────────────────────────────────────────────────────────
+# Shows current weather via wttr.in (no API key needed).
+# Requires: curl  (pacman -S curl)
+#
+# Customise location: set var `location` override in config.yaml:
+#   vars:
+#     location: "London"
+#     units: "u"   # u = imperial (°F), m = metric (°C)
+name: weather
+description: "Current weather via wttr.in (no API key)"
+template: |
+  <box class="nova-weather" orientation="h" spacing="4">
+    <label class="nova-weather__icon" text="{icon}"/>
+    <label class="nova-weather__temp" text="{temp}"/>
+    <label class="nova-weather__cond" text="{cond}" ellipsize="end" max-width-chars="12"/>
+  </box>
+vars:
+  icon:
+    script: "curl -sf 'wttr.in/{location}?format=%c' 2>/dev/null | tr -d '\\n' || echo '?'"
+    interval_ms: 300000
+    default: "?"
+  temp:
+    script: "curl -sf 'wttr.in/{location}?format=%t' 2>/dev/null | tr -d '\\n' || echo '--°C'"
+    interval_ms: 300000
+    default: "--°C"
+  cond:
+    script: "curl -sf 'wttr.in/{location}?format=%C' 2>/dev/null | tr -d '\\n' | cut -c1-14 || echo 'Unknown'"
+    interval_ms: 300000
+    default: "Unknown"
+  location:
+    default: ""
+default_style: |
+  .nova-weather {
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: rgba(30, 30, 46, 0.55);
+    border: 1px solid rgba(148, 226, 213, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,.40), 0 0 12px rgba(148,226,213,.08);
+  }
+  .nova-weather__icon { font-size: 18px; margin-right: 4px; }
+  .nova-weather__temp { font-size: 13px; font-weight: 700; color: #94e2d5; }
+  .nova-weather__cond { font-size: 10px; color: #7f849c; margin-left: 4px; }

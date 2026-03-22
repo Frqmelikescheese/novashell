@@ -1,0 +1,111 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  NovaShell — default configuration
+#  Location: ~/.config/novashell/config.yaml
+#  Docs:     https://github.com/novashell/novashell
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Global settings ──────────────────────────────────────────────────────────
+novashell:
+  # Logging level: error | warn | info | debug | trace
+  log_level: info
+
+  # Watch config dir for changes and hot-reload automatically
+  hot_reload: true
+
+# ── Widget defaults (applied globally unless overridden per-widget) ───────────
+defaults:
+  font: "JetBrains Mono"
+  font_size: 12
+  border_radius: 20
+  padding: 8
+
+# ── Screens ──────────────────────────────────────────────────────────────────
+# Each key under `screens` is a name you choose. You can have multiple entries
+# for multi-monitor setups.
+#
+# Layer options:
+#   background — behind everything (wallpaper level)
+#   bottom     — below normal windows
+#   top        — above normal windows  ← default, good for HUD overlays
+#   overlay    — above everything including fullscreen apps
+#
+# Anchor options:
+#   top-left | top | top-right
+#   left     | center | right
+#   bottom-left | bottom | bottom-right
+#
+# Margin: [top, right, bottom, left]  (like CSS shorthand, in pixels)
+
+screens:
+  primary:
+    # Run `hyprctl monitors` (Hyprland) or `xrandr` to find your monitor name
+    monitor: DP-1
+    layer: top
+    exclusive_zone: 0     # 0 = don't reserve space; -1 = ignore
+    enabled: true
+
+    widgets:
+      # ── Clock ──────────────────────────────────────────────────────────
+      - widget: clock          # built-in or path to a .widget file
+        id: clock-main         # used by: novashell toggle clock-main
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]
+
+      # ── System Monitor ─────────────────────────────────────────────────
+      - widget: sysmon
+        id: sysmon-main
+        position:
+          anchor: top-right
+          margin: [180, 20, 0, 0]
+
+      # ── Audio Visualizer ────────────────────────────────────────────────
+      - widget: cava
+        id: cava-main
+        vars:
+          bar_count: "24"
+          color_active: "#89b4fa"
+          gap: "3"
+        position:
+          anchor: bottom
+          margin: [0, 0, 20, 0]
+
+      # ── Media Player ────────────────────────────────────────────────────
+      - widget: media
+        id: media-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 20, 0]
+
+      # ── Battery ─────────────────────────────────────────────────────────
+      - widget: battery
+        id: battery-main
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 20]
+
+      # ── Volume ──────────────────────────────────────────────────────────
+      - widget: volume
+        id: volume-main
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 20, 20]
+
+      # ── Custom widget example ────────────────────────────────────────────
+      # Uncomment and point to a custom .widget file:
+      # - widget: ~/.config/novashell/widgets/custom/spotify.widget
+      #   id: spotify
+      #   position:
+      #     anchor: top-left
+      #     margin: [80, 0, 0, 20]
+
+  # ── Uncomment for a second monitor ───────────────────────────────────────
+  # secondary:
+  #   monitor: HDMI-A-1
+  #   layer: top
+  #   enabled: true
+  #   widgets:
+  #     - widget: clock
+  #       position:
+  #         anchor: top-right
+  #         margin: [20, 20, 0, 0]

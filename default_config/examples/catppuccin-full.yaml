@@ -1,0 +1,117 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  NovaShell — Catppuccin Glass (full rice)
+#  CSS: ~/.config/novashell/themes/catppuccin-glass.css
+#       → cp themes/catppuccin-glass.css style.css
+#
+#  Hyprland compositor blur (add to hyprland.conf):
+#    layerrule = blur, novashell
+#    layerrule = ignorezero, novashell
+#    decoration { blur { size = 8; passes = 3; } }
+# ══════════════════════════════════════════════════════════════════════════════
+
+novashell:
+  log_level: info
+  hot_reload: true
+
+defaults:
+  font: "JetBrains Mono"
+  font_size: 12
+  border_radius: 20
+  padding: 8
+
+screens:
+  primary:
+    monitor: DP-1          # ← change to your monitor (hyprctl monitors)
+    layer: top
+    exclusive_zone: 0
+    enabled: true
+
+    widgets:
+
+      # ── TOP RIGHT: clock stack ─────────────────────────────────────────────
+      - widget: clock
+        id: clock-main
+        position:
+          anchor: top-right
+          margin: [20, 20, 0, 0]
+
+      - widget: sysmon
+        id: sysmon-main
+        position:
+          anchor: top-right
+          margin: [192, 20, 0, 0]
+
+      # ── TOP LEFT: workspace + status pills ────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/workspace.widget
+        id: workspace
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 20]
+
+      - widget: battery
+        id: battery-main
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 108]
+
+      - widget: ~/.config/novashell/widgets/custom/kernel.widget
+        id: kernel
+        position:
+          anchor: top-left
+          margin: [20, 0, 0, 240]
+
+      # ── TOP CENTER: weather ───────────────────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/weather.widget
+        id: weather
+        vars:
+          location: ""     # leave blank for auto, or set e.g. "London"
+        position:
+          anchor: top
+          margin: [20, 0, 0, 0]
+
+      # ── BOTTOM CENTER: cava visualiser ────────────────────────────────────
+      - widget: cava
+        id: cava-main
+        vars:
+          bar_count: "32"
+          color_active: "#89b4fa"
+          gap: "3"
+        position:
+          anchor: bottom
+          margin: [0, 0, 24, 0]
+
+      # ── BOTTOM RIGHT: media + volume ──────────────────────────────────────
+      - widget: media
+        id: media-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 24, 0]
+
+      - widget: volume
+        id: volume-main
+        position:
+          anchor: bottom-right
+          margin: [0, 20, 98, 0]
+
+      # ── BOTTOM LEFT: wifi + uptime ────────────────────────────────────────
+      - widget: ~/.config/novashell/widgets/custom/network_ssid.widget
+        id: wifi
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 24, 20]
+
+      - widget: ~/.config/novashell/widgets/custom/uptime.widget
+        id: uptime
+        position:
+          anchor: bottom-left
+          margin: [0, 0, 24, 176]
+
+      # ── CENTER LEFT: launcher ─────────────────────────────────────────────
+      - widget: launcher
+        id: launcher-main
+        vars:
+          label: " Apps"
+          command: "fuzzel"
+        position:
+          anchor: left
+          margin: [0, 0, 0, 20]

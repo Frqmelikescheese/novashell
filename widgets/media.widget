@@ -1,0 +1,50 @@
+name: media
+description: "MPRIS2 media player controls (prev / play-pause / next + progress)"
+template: |
+  <box class="nova-media" orientation="v" spacing="8">
+    <box class="nova-media__info" orientation="h" spacing="10">
+      <image class="nova-media__art" width="48" height="48" fallback-icon="audio-x-generic"/>
+      <box class="nova-media__text" orientation="v" spacing="2">
+        <label class="nova-media__title"  text="{title}"  ellipsize="end" max-width-chars="24"/>
+        <label class="nova-media__artist" text="{artist}" ellipsize="end" max-width-chars="24"/>
+      </box>
+    </box>
+    <scale class="nova-media__progress" value="{position_fraction}" min="0.0" max="1.0"/>
+    <box class="nova-media__controls" orientation="h" spacing="4" halign="center">
+      <button class="nova-media__btn nova-media__btn--prev"      icon="media-skip-backward"  action="media::prev"/>
+      <button class="nova-media__btn nova-media__btn--playpause" icon="{play_icon}"           action="media::play_pause"/>
+      <button class="nova-media__btn nova-media__btn--next"      icon="media-skip-forward"   action="media::next"/>
+    </box>
+  </box>
+vars:
+  title:
+    builtin: "media::title"
+    interval_ms: 1000
+    default: "Nothing Playing"
+  artist:
+    builtin: "media::artist"
+    interval_ms: 1000
+    default: ""
+  play_icon:
+    builtin: "media::play_icon"
+    interval_ms: 500
+    default: "media-playback-start"
+  position_fraction:
+    builtin: "media::position_fraction"
+    interval_ms: 1000
+    default: "0.0"
+  art_path:
+    builtin: "media::art_path"
+    interval_ms: 2000
+    default: ""
+default_style: |
+  .nova-media {
+    padding: 14px 16px;
+    min-width: 240px;
+    border-radius: 12px;
+    background: alpha(@bg_color, 0.75);
+  }
+  .nova-media__title  { font-weight: 700; font-size: 13px; }
+  .nova-media__artist { font-size: 12px; opacity: 0.70; }
+  .nova-media__btn    { padding: 6px; border-radius: 50%; min-width: 32px; min-height: 32px; }
+  .nova-media__progress { margin-top: 2px; }

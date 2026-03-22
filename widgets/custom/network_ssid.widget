@@ -1,0 +1,45 @@
+# ── WiFi SSID + signal widget ───────────────────────────────────────────────
+# Shows WiFi network name and signal quality as a compact pill.
+# Requires: iw, iwgetid  (pacman -S iw wireless_tools)
+# Falls back to showing "Ethernet" if no WiFi detected.
+name: network_ssid
+description: "WiFi SSID and signal strength pill"
+template: |
+  <box class="nova-wifi" orientation="h" spacing="4">
+    <label class="nova-wifi__icon" text="{icon}"/>
+    <label class="nova-wifi__ssid" text="{ssid}" ellipsize="end" max-width-chars="16"/>
+    <label class="nova-wifi__signal" text="{signal}"/>
+  </box>
+vars:
+  ssid:
+    script: "iwgetid -r 2>/dev/null || (ip link show | grep -q 'state UP' && echo 'Ethernet') || echo 'Offline'"
+    interval_ms: 5000
+    default: "Connecting"
+  signal:
+    script: |
+      qual=$(awk 'NR==3{print int($3*100/70)"%"}' /proc/net/wireless 2>/dev/null)
+      [ -z "$qual" ] && echo "" || echo "$qual"
+    interval_ms: 5000
+    default: ""
+  icon:
+    script: |
+      ssid=$(iwgetid -r 2>/dev/null)
+      if [ -n "$ssid" ]; then
+        qual=$(awk 'NR==3{print int($3)}' /proc/net/wireless 2>/dev/null || echo 0)
+        if [ "$qual" -ge 55 ]; then echo ""; elif [ "$qual" -ge 35 ]; then echo ""; else echo ""; fi
+      else
+        ip link show | grep -q 'state UP' && echo "" || echo "󰤭"
+      fi
+    interval_ms: 5000
+    default: ""
+default_style: |
+  .nova-wifi {
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: rgba(30, 30, 46, 0.55);
+    border: 1px solid rgba(116, 199, 236, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,.40), 0 0 10px rgba(116,199,236,.08);
+  }
+  .nova-wifi__icon   { font-size: 14px; color: #74c7ec; margin-right: 4px; }
+  .nova-wifi__ssid   { font-size: 11px; color: #a6adc8; }
+  .nova-wifi__signal { font-size: 10px; color: #6c7086; margin-left: 4px; }

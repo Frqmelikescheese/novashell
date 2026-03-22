@@ -1,0 +1,198 @@
+/* ══════════════════════════════════════════════════════════════════════════ */
+/*  NovaShell Theme: Nord Ice                                                  */
+/*  Mood: arctic clarity, polar night with aurora glows, minimal + crisp      */
+/*  Apply: cp themes/nord-ice.css ~/.config/novashell/style.css               */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* Nord palette */
+@define-color nord0  #2e3440;
+@define-color nord1  #3b4252;
+@define-color nord2  #434c5e;
+@define-color nord3  #4c566a;
+@define-color nord4  #d8dee9;
+@define-color nord5  #e5e9f0;
+@define-color nord6  #eceff4;
+@define-color nord7  #8fbcbb;   /* frost: teal */
+@define-color nord8  #88c0d0;   /* frost: ice blue */
+@define-color nord9  #81a1c1;   /* frost: steel */
+@define-color nord10 #5e81ac;   /* frost: deep */
+@define-color nord11 #bf616a;   /* aurora: red */
+@define-color nord12 #d08770;   /* aurora: orange */
+@define-color nord13 #ebcb8b;   /* aurora: yellow */
+@define-color nord14 #a3be8c;   /* aurora: green */
+@define-color nord15 #b48ead;   /* aurora: purple */
+
+/* Semantic aliases */
+@define-color text     @nord4;
+@define-color subtext0 @nord3;
+@define-color surface0 @nord1;
+@define-color surface1 @nord2;
+@define-color overlay0 @nord3;
+@define-color overlay1 @nord9;
+@define-color blue     @nord8;
+@define-color sapphire @nord9;
+@define-color teal     @nord7;
+@define-color green    @nord14;
+@define-color yellow   @nord13;
+@define-color peach    @nord12;
+@define-color red      @nord11;
+@define-color mauve    @nord15;
+@define-color sky      @nord8;
+@define-color lavender @nord9;
+
+@define-color glass-bg    rgba(46, 52, 64, 0.52);
+@define-color glass-light rgba(59, 66, 82, 0.42);
+@define-color glass-rim   rgba(216, 222, 233, 0.08);
+@define-color glass-shine rgba(236, 239, 244, 0.09);
+@define-color crust       @nord0;
+
+@keyframes nova-glow-ice {
+  0%,100% { box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0  8px rgba(136,192,208,.15), inset 0 1px 0 @glass-shine; }
+  50%     { box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0 26px rgba(136,192,208,.45), inset 0 1px 0 @glass-shine; }
+}
+@keyframes nova-glow-aurora {
+  0%,100% { box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0  8px rgba(163,190,140,.10); }
+  50%     { box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0 20px rgba(163,190,140,.35); }
+}
+@keyframes nova-glow-red {
+  0%,100% { box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0 10px rgba(191,97,106,.20); }
+  50%     { box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 0 28px rgba(191,97,106,.55); }
+}
+@keyframes nova-bar-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+* {
+  font-family: "JetBrains Mono", "Iosevka", monospace;
+  color: @text;
+  -gtk-icon-style: symbolic;
+  transition: all 220ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+window { background: transparent; }
+
+.nova-clock, .nova-sysmon, .nova-cava,
+.nova-media, .nova-battery, .nova-volume, .nova-launcher,
+.nova-workspace, .nova-weather, .nova-wifi, .nova-updates,
+.nova-gpu, .nova-uptime, .nova-kernel {
+  background: @glass-bg;
+  border: 1px solid @glass-rim;
+  box-shadow: 0 2px 8px rgba(0,0,0,.45), 0 10px 32px rgba(0,0,0,.25), inset 0 1px 0 @glass-shine;
+}
+
+/* ── Clock — arctic blue glow ────────────────────────────────────────────── */
+.nova-clock {
+  padding: 20px 26px; border-radius: 20px; min-width: 165px;
+  border: 1px solid rgba(136,192,208,.16);
+  animation: nova-glow-ice 5s ease-in-out infinite;
+}
+.nova-clock__time { font-size: 52px; font-weight: 800; color: @nord6; letter-spacing: -2px; }
+.nova-clock__date { font-size: 12px; color: @nord8; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+.nova-clock__day  { font-size: 9px; color: @nord3; text-transform: uppercase; letter-spacing: 2.5px; margin-top: 3px; }
+
+/* ── Sysmon — clean rows ─────────────────────────────────────────────────── */
+.nova-sysmon { padding: 14px 18px; border-radius: 18px; min-width: 205px; }
+.nova-sysmon__title { font-size: 9px; color: @nord3; text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 8px; }
+.nova-sysmon__label { min-width: 38px; font-size: 10px; color: @nord9; }
+.nova-sysmon__value { font-size: 11px; min-width: 52px; color: @nord4; font-variant-numeric: tabular-nums; }
+.nova-sysmon__bar   { min-height: 3px; border-radius: 2px; background: @nord1; }
+.nova-sysmon__bar--cpu levelbar block.filled {
+  background: linear-gradient(90deg, @nord8, @nord9, @nord8);
+  background-size: 300% 300%; animation: nova-bar-flow 4s ease infinite;
+  border-radius: 2px; box-shadow: 0 0 8px rgba(136,192,208,.55);
+}
+.nova-sysmon__bar--ram levelbar block.filled {
+  background: linear-gradient(90deg, @nord15, @nord9, @nord15);
+  background-size: 300% 300%; animation: nova-bar-flow 4.5s ease infinite;
+  border-radius: 2px; box-shadow: 0 0 8px rgba(180,142,173,.45);
+}
+
+/* ── Cava ────────────────────────────────────────────────────────────────── */
+.nova-cava {
+  padding: 6px 12px; border-radius: 12px;
+  background: rgba(46,52,64,.25); border: 1px solid rgba(216,222,233,.04); box-shadow: none;
+}
+
+/* ── Media ───────────────────────────────────────────────────────────────── */
+.nova-media {
+  padding: 16px 20px; border-radius: 20px; min-width: 260px;
+  border: 1px solid rgba(163,190,140,.12); animation: nova-glow-aurora 6s ease-in-out infinite;
+}
+.nova-media__title  { font-weight: 700; font-size: 13px; color: @nord5; }
+.nova-media__artist { font-size: 11px; color: @nord3; margin-top: 2px; }
+.nova-media__btn { padding: 6px; border-radius: 50%; min-width: 28px; min-height: 28px; background: @glass-light; border: 1px solid @glass-rim; }
+.nova-media__btn:hover { background: @nord2; box-shadow: 0 0 10px rgba(136,192,208,.25); }
+.nova-media__btn--playpause { background: @nord10; color: @nord6; border: none; box-shadow: 0 0 14px rgba(94,129,172,.55); }
+.nova-media__btn--playpause:hover { box-shadow: 0 0 22px rgba(94,129,172,.75); }
+.nova-media__progress trough { background: @nord1; min-height: 3px; border-radius: 2px; margin-top: 10px; }
+.nova-media__progress trough highlight { background: linear-gradient(90deg, @nord10, @nord8); border-radius: 2px; }
+
+/* ── Battery ─────────────────────────────────────────────────────────────── */
+.nova-battery {
+  padding: 9px 18px; border-radius: 999px;
+  border: 1px solid rgba(163,190,140,.20);
+  box-shadow: 0 2px 8px rgba(0,0,0,.42), 0 0 14px rgba(163,190,140,.10), inset 0 1px 0 rgba(163,190,140,.08);
+}
+.nova-battery__icon    { font-size: 16px; color: @nord14; margin-right: 5px; }
+.nova-battery__percent { font-weight: 800; font-size: 13px; color: @nord14; font-variant-numeric: tabular-nums; }
+.nova-battery__status  { font-size: 10px; color: @nord3; margin-left: 5px; }
+.nova-battery__bar { min-width: 60px; min-height: 3px; border-radius: 2px; background: @nord1; }
+.nova-battery__bar levelbar block.filled { background: linear-gradient(90deg,@nord14,@nord7); border-radius: 2px; box-shadow: 0 0 7px rgba(163,190,140,.45); }
+.nova-battery.warning .nova-battery__icon,
+.nova-battery.warning .nova-battery__percent { color: @nord13; }
+.nova-battery.critical { animation: nova-glow-red 1.2s ease-in-out infinite; }
+.nova-battery.critical .nova-battery__icon,
+.nova-battery.critical .nova-battery__percent { color: @nord11; }
+
+/* ── Volume ──────────────────────────────────────────────────────────────── */
+.nova-volume {
+  padding: 9px 18px; border-radius: 999px; min-width: 148px;
+  border: 1px solid rgba(143,188,187,.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,.42), 0 0 10px rgba(143,188,187,.08);
+}
+.nova-volume__icon  { font-size: 14px; color: @nord7; margin-right: 6px; }
+.nova-volume__label { font-size: 11px; min-width: 36px; color: @nord4; font-variant-numeric: tabular-nums; }
+.nova-volume__slider trough           { background: @nord1; min-height: 3px; border-radius: 2px; }
+.nova-volume__slider trough highlight { background: linear-gradient(90deg,@nord8,@nord7); border-radius: 2px; }
+.nova-volume__slider slider { min-width: 10px; min-height: 10px; border-radius: 50%; background: @nord8; border: none; box-shadow: 0 0 9px rgba(136,192,208,.58); }
+.nova-volume__slider slider:hover { min-width: 14px; min-height: 14px; box-shadow: 0 0 16px rgba(136,192,208,.80); }
+
+/* ── Launcher ────────────────────────────────────────────────────────────── */
+.nova-launcher { padding: 5px 8px; border-radius: 999px; background: rgba(46,52,64,.40); border: 1px solid @glass-rim; }
+.nova-launcher__btn { border-radius: 999px; padding: 6px 18px; background: rgba(94,129,172,.12); color: @nord9; border: 1px solid rgba(94,129,172,.22); font-size: 12px; }
+.nova-launcher__btn:hover { background: rgba(94,129,172,.24); color: @nord6; border-color: rgba(94,129,172,.50); box-shadow: 0 0 16px rgba(94,129,172,.32); }
+
+/* ── Plugin widgets ──────────────────────────────────────────────────────── */
+.nova-workspace { padding: 8px 12px; border-radius: 999px; }
+.nova-workspace__dot { min-width: 7px; min-height: 7px; border-radius: 50%; background: @nord2; margin: 0 3px; transition: all 180ms ease; }
+.nova-workspace__dot.active { min-width: 18px; background: @nord8; box-shadow: 0 0 10px rgba(136,192,208,.55); border-radius: 999px; }
+.nova-workspace__dot.occupied { background: @nord9; }
+.nova-workspace__id { font-size: 11px; font-weight: 700; color: @nord8; }
+
+.nova-weather { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(143,188,187,.15); }
+.nova-weather__icon { font-size: 18px; margin-right: 6px; }
+.nova-weather__temp { font-size: 13px; font-weight: 700; color: @nord7; }
+.nova-weather__cond { font-size: 10px; color: @nord3; margin-left: 4px; }
+
+.nova-wifi { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(129,161,193,.15); }
+.nova-wifi__icon { font-size: 14px; color: @nord9; margin-right: 6px; }
+.nova-wifi__ssid { font-size: 11px; color: @nord4; }
+
+.nova-updates { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(208,135,112,.15); }
+.nova-updates__icon  { font-size: 13px; color: @nord12; margin-right: 5px; }
+.nova-updates__count { font-size: 12px; font-weight: 700; color: @nord12; font-variant-numeric: tabular-nums; }
+.nova-updates__label { font-size: 10px; color: @nord3; margin-left: 3px; }
+
+.nova-gpu { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(180,142,173,.15); }
+.nova-gpu__icon    { font-size: 13px; color: @nord15; margin-right: 5px; }
+.nova-gpu__percent { font-size: 12px; font-weight: 700; color: @nord15; font-variant-numeric: tabular-nums; }
+.nova-gpu__temp    { font-size: 10px; color: @nord12; margin-left: 6px; }
+
+.nova-uptime { padding: 8px 14px; border-radius: 999px; border: 1px solid @glass-rim; }
+.nova-uptime__icon  { font-size: 12px; color: @nord9; margin-right: 5px; }
+.nova-uptime__value { font-size: 11px; color: @nord4; }
+
+.nova-kernel { padding: 7px 14px; border-radius: 999px; border: 1px solid @glass-rim; }
+.nova-kernel__icon    { font-size: 12px; color: @nord3; margin-right: 5px; }
+.nova-kernel__version { font-size: 10px; color: @nord3; letter-spacing: .3px; }

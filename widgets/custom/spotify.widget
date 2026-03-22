@@ -1,0 +1,36 @@
+# ── Example custom widget: Spotify via playerctl ──────────────────────────
+# Uses shell scripts instead of built-in sources.
+# Requires: playerctl  (pacman -S playerctl)
+name: spotify
+description: "Spotify status widget via playerctl"
+template: |
+  <box class="nova-spotify" orientation="h" spacing="10">
+    <label class="nova-spotify__icon" text=""/>
+    <box class="nova-spotify__text" orientation="v" spacing="2">
+      <label class="nova-spotify__title"  text="{title}"  ellipsize="end" max-width-chars="26"/>
+      <label class="nova-spotify__artist" text="{artist}" ellipsize="end" max-width-chars="26"/>
+    </box>
+  </box>
+vars:
+  title:
+    script: "playerctl -p spotify metadata title 2>/dev/null || echo 'Spotify'"
+    interval_ms: 2000
+    default: "Not playing"
+  artist:
+    script: "playerctl -p spotify metadata artist 2>/dev/null || echo ''"
+    interval_ms: 2000
+    default: ""
+  status:
+    script: "playerctl -p spotify status 2>/dev/null || echo 'Stopped'"
+    interval_ms: 1000
+    default: "Stopped"
+default_style: |
+  .nova-spotify {
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: rgba(30, 215, 96, 0.12);
+    border: 1px solid rgba(30, 215, 96, 0.25);
+  }
+  .nova-spotify__icon   { font-size: 22px; color: #1db954; }
+  .nova-spotify__title  { font-weight: 700; font-size: 13px; color: #cdd6f4; }
+  .nova-spotify__artist { font-size: 11px; color: #a6adc8; }

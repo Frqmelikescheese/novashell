@@ -1,0 +1,19 @@
+[Unit]
+Description=NovaShell — desktop ricing engine
+Documentation=https://github.com/novashell/novashell
+After=graphical-session.target
+PartOf=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/novashell daemon --foreground
+ExecReload=%h/.local/bin/novashell reload
+Restart=on-failure
+RestartSec=3s
+Environment=NOVASHELL_LOG=info
+# Ensure GTK / Wayland env vars are available
+PassEnvironment=DISPLAY WAYLAND_DISPLAY XDG_RUNTIME_DIR XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS
+
+[Install]
+WantedBy=graphical-session.target

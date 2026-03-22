@@ -84,7 +84,19 @@ pub fn get_percent() -> String {
     format!("{:.0}", (frac * 100.0).min(100.0))
 }
 
-/// Returns the appropriate volume icon name
+/// Returns the appropriate volume icon based on level and mute state
+pub fn volume_icon_text(frac: f64, muted: bool) -> &'static str {
+    if muted || frac == 0.0 {
+        return "󰝟";
+    }
+    match (frac * 100.0) as u32 {
+        1..=33 => "󰕿",
+        34..=66 => "󰖀",
+        _ => "󰕾",
+    }
+}
+
+/// Returns the appropriate volume icon name (for GTK image)
 pub fn get_icon() -> String {
     let (frac, muted) = read_volume();
     if muted {
@@ -105,7 +117,7 @@ fn toggle_mute() {
         .output();
 }
 
-/// Set volume using wpctl (fraction 0.0–1.0)
+/// Set volume using wpctl (fraction 0.0–1.5)
 fn set_volume_wpctl(fraction: f64) {
     let pct = format!("{:.2}", fraction.clamp(0.0, 1.5));
     let _ = std::process::Command::new("wpctl")
@@ -133,37 +145,70 @@ impl NovaWidget for VolumeWidget {
         "volume"
     }
 
-    fn build(&self, _ctx: &WidgetContext) -> Widget {
+    fn build(&self, ctx: &WidgetContext) -> Widget {
+        // --- vars ---
+        let show_icon: bool = ctx.var("show_icon", "true").parse().unwrap_or(true);
+        let show_label: bool = ctx.var("show_label", "true").parse().unwrap_or(true);
+        let show_slider: bool = ctx.var("show_slider", "true").parse().unwrap_or(true);
+        let use_text_icon: bool = ctx.var("text_icon", "false").parse().unwrap_or(false);
+        let max_volume: f64 = ctx.var("max_volume", "1.0").parse().unwrap_or(1.0);
+        let mute_icon = ctx.var("mute_icon", "󰝟");
+        let update_ms: u64 = ctx.var("update_interval", "1000").parse().unwrap_or(1000);
+
         let container = gtk4::Box::new(Orientation::Horizontal, 8);
         container.add_css_class("nova-volume");
 
-        let (frac, _muted) = read_volume();
-        let icon_name = get_icon();
+        let (frac, muted) = read_volume();
 
-        let icon_btn = Button::from_icon_name(&icon_name);
-        icon_btn.add_css_class("nova-volume__icon");
+        // Icon: either a text label (Nerd Font glyph) or GTK symbolic icon button
+        let icon_btn = if use_text_icon {
+            let icon_text = if muted { mute_icon.clone() } else { volume_icon_text(frac, muted).to_string() };
+            let lbl = Label::new(Some(&icon_text));
+            lbl.add_css_class("nova-volume__icon");
+            // Wrap in a button so clicks still toggle mute
+            let btn = Button::new();
+            btn.add_css_class("nova-volume__icon-btn");
+            btn.set_child(Some(&lbl));
+            btn
+        } else {
+            let btn = Button::from_icon_name(&get_icon());
+            btn.add_css_class("nova-volume__icon");
+            btn
+        };
+        icon_btn.set_visible(show_icon);
 
-        let slider = Scale::with_range(Orientation::Horizontal, 0.0, 1.0, 0.01);
+        let slider = Scale::with_range(Orientation::Horizontal, 0.0, max_volume.max(1.0), 0.01);
         slider.add_css_class("nova-volume__slider");
         slider.set_draw_value(false);
-        slider.set_value(frac.min(1.0));
+        slider.set_value(frac.min(max_volume));
         slider.set_hexpand(true);
+        slider.set_visible(show_slider);
 
-        let pct_label = Label::new(Some(&format!("{}%", get_percent())));
+        let pct_label = Label::new(Some(&format!("{:.0}%", frac * 100.0)));
         pct_label.add_css_class("nova-volume__label");
+        pct_label.set_visible(show_label);
 
-        // Mute toggle
+        // Mute toggle on icon click
         {
             let icon_btn_clone = icon_btn.clone();
             let pct_clone = pct_label.clone();
             let slider_clone = slider.clone();
+            let mute_icon_c = mute_icon.clone();
             icon_btn.connect_clicked(move |_| {
                 toggle_mute();
-                let (f, _) = read_volume();
-                let ic = get_icon();
-                icon_btn_clone.set_icon_name(&ic);
-                slider_clone.set_value(f.min(1.0));
-                pct_clone.set_text(&format!("{}%", get_percent()));
+                let (f, muted) = read_volume();
+                if use_text_icon {
+                    if let Some(child) = icon_btn_clone.child() {
+                        if let Some(lbl) = child.downcast_ref::<Label>() {
+                            let txt = if muted { mute_icon_c.clone() } else { volume_icon_text(f, muted).to_string() };
+                            lbl.set_text(&txt);
+                        }
+                    }
+                } else {
+                    icon_btn_clone.set_icon_name(&get_icon());
+                }
+                slider_clone.set_value(f.min(max_volume));
+                pct_clone.set_text(&format!("{:.0}%", f * 100.0));
             });
         }
 
@@ -171,11 +216,22 @@ impl NovaWidget for VolumeWidget {
         {
             let pct_clone2 = pct_label.clone();
             let icon_btn_clone2 = icon_btn.clone();
+            let mute_icon_c2 = mute_icon.clone();
             slider.connect_value_changed(move |s| {
                 let v = s.value();
                 set_volume_wpctl(v);
                 pct_clone2.set_text(&format!("{:.0}%", v * 100.0));
-                icon_btn_clone2.set_icon_name(&get_icon());
+                let (f, muted) = read_volume();
+                if use_text_icon {
+                    if let Some(child) = icon_btn_clone2.child() {
+                        if let Some(lbl) = child.downcast_ref::<Label>() {
+                            let txt = if muted { mute_icon_c2.clone() } else { volume_icon_text(f, muted).to_string() };
+                            lbl.set_text(&txt);
+                        }
+                    }
+                } else {
+                    icon_btn_clone2.set_icon_name(&get_icon());
+                }
             });
         }
 
@@ -183,16 +239,25 @@ impl NovaWidget for VolumeWidget {
         container.append(&slider);
         container.append(&pct_label);
 
-        // Periodic update every second
+        // Periodic update
         let icon_btn_upd = icon_btn.clone();
         let slider_upd = slider.clone();
         let pct_upd = pct_label.clone();
+        let mute_icon_upd = mute_icon.clone();
 
-        glib::timeout_add_local(std::time::Duration::from_secs(1), move || {
-            let (f, _) = read_volume();
-            icon_btn_upd.set_icon_name(&get_icon());
-            // Only update slider if it's not being dragged (simple approach)
-            slider_upd.set_value(f.min(1.0));
+        glib::timeout_add_local(std::time::Duration::from_millis(update_ms), move || {
+            let (f, muted) = read_volume();
+            if use_text_icon {
+                if let Some(child) = icon_btn_upd.child() {
+                    if let Some(lbl) = child.downcast_ref::<Label>() {
+                        let txt = if muted { mute_icon_upd.clone() } else { volume_icon_text(f, muted).to_string() };
+                        lbl.set_text(&txt);
+                    }
+                }
+            } else {
+                icon_btn_upd.set_icon_name(&get_icon());
+            }
+            slider_upd.set_value(f.min(max_volume));
             pct_upd.set_text(&format!("{:.0}%", f * 100.0));
             glib::ControlFlow::Continue
         });
